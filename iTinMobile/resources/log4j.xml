@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="true">
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} 
+      %5p %c : - %m%n" />
+
+		</layout>
+	</appender>
+
+	<appender name="RFAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="${user.home}/itinmailapp/itin-mobile.log" />
+		<param name="MaxFileSize" value="5000KB" />
+		<!-- Keep one backup file -->
+		<param name="MaxBackupIndex" value="3" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+
+	<logger name="org.springframework">
+		<level value="WARN" />
+		<appender-ref ref="console" />
+		<appender-ref ref="RFAppender" />
+	</logger>
+	<logger name="com.ibsplc.itin">
+		<level value="Info" />
+		<appender-ref ref="console" />
+		<appender-ref ref="RFAppender" />
+	</logger>
+
+	<logger name="org.hibernate">
+		<level value="Debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="RFAppender" />
+	</logger>
+
+	<!-- <logger name="org.hibernate.SQL"> -->
+	<!-- <level value="WARN"/> -->
+	<!-- <appender-ref ref="console" /> -->
+	<!-- </logger> -->
+	<!-- <logger name="org.hibernate.type"> -->
+	<!-- <level value="WARN"/> -->
+	<!-- <appender-ref ref="console" /> -->
+	<!-- </logger> -->
+
+</log4j:configuration>
+

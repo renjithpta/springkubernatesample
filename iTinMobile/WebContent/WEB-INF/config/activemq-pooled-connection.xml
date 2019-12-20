@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/jee  
+    http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+
+	<bean id="springmessageReceiver"
+		class="com.ibsplc.itin.activemq.listner.JmsMessageListener">
+		<property name="ITinTravelServiceDao" ref="travelServiceDAO" />
+	</bean>
+
+
+
+
+	<jee:jndi-lookup id="mqConnectionFactory"
+		jndi-name="java:comp/env/jms/mqConnectionFactory" />
+	<jee:jndi-lookup id="iTinQueue"
+		jndi-name="java:comp/env/jms/itinMsgQueueOne" />
+
+
+
+
+	<bean id="redeliveryPolicy"
+		class="org.apache.activemq.RedeliveryPolicy">
+		<property name="queue" value="*" />
+		<property name="initialRedeliveryDelay" value="0" />
+		<property name="redeliveryDelay" value="3000" />
+		<property name="maximumRedeliveryDelay" value="12000000" />
+		<property name="maximumRedeliveries" value="12" />
+		<property name="useExponentialBackOff" value="true" />
+		<property name="backOffMultiplier" value="1" />
+	</bean>
+
+
+
+	<!-- Pooled Spring connection factory -->
+	<bean id="connectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<constructor-arg ref="mqConnectionFactory" />
+		<property name="sessionCacheSize" value="10" />
+
+	</bean>
+
+
+
+	<!-- ============================================================= -->
+	<!-- JMS Receive，Define MessageListenerContainer                  -->
+	<!-- ============================================================= -->
+	<bean id="messageListenerContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destinationName" value="itinqueue" />
+		<property name="messageListener" ref="springmessageReceiver" />
+		<property name="recoveryInterval" value="20000" />
+		<property name="maxConcurrentConsumers" value="1" />
+		<property name="concurrentConsumers" value="1" />
+
+	</bean>
+
+
+	<bean id="jmsTemplate"
+		class="org.springframework.jms.core.JmsTemplate">
+
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestinationName" value="itinqueue"></property>
+		<property name="receiveTimeout" value="200" />
+	</bean>
+
+
+</beans>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.ibsplc.itin.vo.RequestVO"/>
+<fullyQualifiedTypeName name="com.ibsplc.itin.vo.MasterInfo"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.ibsplc.itin.vo.EmployeeVO"/>
+<fullyQualifiedTypeName name="org.apache.activemq.command.ActiveMQTextMessage"/>
+</qualifiedTypeNameHistroy>

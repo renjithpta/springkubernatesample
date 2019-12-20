@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd 
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	default-lazy-init="false">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<jaxrs:server id="itinservice" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="directory" />
+			<ref bean="itindevice" />
+			<!-- <ref bean="authenticator"/> -->
+		</jaxrs:serviceBeans>
+
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<ref bean="tokenVerification" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<bean id="itindevice" class="com.ibsplc.itin.pns.ITinDeviceRegistartionServiceImpl" />
+
+	<bean id="directory" class="com.ibsplc.itin.serviceimpl.ITinTravelServicesImpl">
+		<property name="travelServiceDAO" ref="travelServiceDAO" />
+	</bean>
+
+	<bean id="cacheHandler" class="com.ibsplc.itin.cas.cache.CacheHandler" />
+
+
+	<bean id="tokenVerification" class="com.ibsplc.itin.cas.cache.CasTokenVerification">
+		<property name="cacheHandler" ref="cacheHandler" />
+	</bean>
+
+	<!-- <bean id="authenticator" -->
+	<!-- class="com.ibsplc.itin.serviceimpl.AuthenticationServiceImpl"> -->
+	<!-- <property name="travelServiceDAO" ref="travelServiceDAO" /> -->
+	<!-- </bean> -->
+	<!-- -->
+
+
+
+</beans>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/iTinMobileDataSource" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+<!---->
+<!--	<bean id="sessionFactory"-->
+<!--		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">-->
+<!--		<property name="dataSource">-->
+<!--			<ref local="dataSource" />-->
+<!--		</property>-->
+<!--		<property name="hibernateProperties">-->
+<!--			<props>-->
+<!--				<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>-->
+<!--			</props>-->
+<!--		</property>-->
+<!--		<property name="configLocation" value="classpath:hibernate.cfg.xml" />-->
+<!--	</bean>-->
+  <bean id="sessionFactory"
+              class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+              <property name="dataSource">
+                     <ref local="dataSource" />
+              </property>
+               <property name="packagesToScan" value="org.baeldung.spring.persistence.model" />
+              <property name="hibernateProperties">
+                     <props>
+                           <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+                     </props>
+              </property>
+             
+       </bean>
+
+	<bean id="travelServiceDAO" class="com.ibsplc.itin.database.dao.ITinTravelServiceDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="jdbcDao" ref="travelServiceJdbcDAO"></property>
+	</bean>
+
+	<bean id="travelServiceJdbcDAO" class="com.ibsplc.itin.database.dao.ITinTravelServiceJdbcDao">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+
+</beans>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;JmsMessageListener.java&apos; to &apos;spring-mvc-chat/src/main/java/com.ibsplc.itin.activemq.listner&apos;&#x0D;&#x0A;- Original project: &apos;iTinApps&apos;&#x0D;&#x0A;- Destination element: &apos;spring-mvc-chat/src/main/java/com.ibsplc.itin.activemq.listner&apos;&#x0D;&#x0A;- Original element: &apos;com.ibsplc.itin.activemq.listner.JmsMessageListener.java&apos;" description="Copy compilation unit" destination="=spring-mvc-chat/src\/main\/java&lt;com.ibsplc.itin.activemq.listner" element1="/src\/main\/java&lt;com.ibsplc.itin.activemq.listner{JmsMessageListener.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1569932682822" units="1" version="1.0"/>
+</session>
